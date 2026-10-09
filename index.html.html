@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#24123f">
+<title>Valenchina Simulator™</title>
+<style>
+:root{--bg:#160d2a;--panel:#261642;--pink:#ff78bd;--yellow:#ffe58b;--mint:#9fffe0;--white:#fff8ff;--muted:#d7c7e9}
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;color:var(--white);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:radial-gradient(circle at 10% 0%,#5a2677 0,transparent 35%),radial-gradient(circle at 100% 30%,#6a214f 0,transparent 30%),var(--bg);display:flex;justify-content:center;padding:18px 13px 28px}
+.wrap{width:min(100%,520px);margin:auto}
+.top{display:flex;justify-content:space-between;align-items:center;margin:2px 2px 14px;font-size:12px;letter-spacing:.12em;color:#e5d7f7;text-transform:uppercase}
+.pill{border:1px solid #ffffff30;border-radius:999px;padding:7px 10px;background:#ffffff0c}
+.card{border:1px solid #ffffff26;background:linear-gradient(160deg,#2b1948ed,#211234f5);border-radius:25px;padding:24px 19px;box-shadow:0 18px 50px #0005;overflow:hidden;position:relative}
+.kicker{color:var(--mint);font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+h1{font-size:clamp(30px,9vw,46px);line-height:.98;margin:12px 0 13px;letter-spacing:-.045em}
+h1 .pink{color:var(--pink)}
+h2{font-size:25px;line-height:1.08;margin:10px 0}
+p{line-height:1.55;color:var(--muted);margin:10px 0 17px}
+.hero{font-size:72px;text-align:center;margin:12px 0 2px;filter:drop-shadow(0 7px 0 #0002)}
+.stamp{display:inline-block;transform:rotate(-4deg);border:2px dashed var(--yellow);color:var(--yellow);font-weight:900;padding:7px 11px;border-radius:10px;font-size:12px}
+button{font:inherit;cursor:pointer;touch-action:manipulation}
+.btn{width:100%;border:0;border-radius:15px;padding:15px 14px;font-weight:900;background:var(--pink);color:#31132f;box-shadow:0 5px 0 #a83c7c;margin-top:9px;transition:transform .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #a83c7c}
+.btn.secondary{background:#ffffff0c;color:var(--white);border:1px solid #ffffff35;box-shadow:none}
+.btn.yellow{background:var(--yellow);box-shadow:0 5px 0 #b18b3b}
+.options{display:grid;gap:10px;margin-top:14px}
+.option{border:1px solid #ffffff2c;background:#ffffff0b;color:var(--white);padding:14px;border-radius:14px;text-align:left;font-weight:750}
+.option:active{background:#ff78bd24}
+.note{font-size:12px;color:#bca9d4;text-align:center;margin:15px 4px 0}
+.progress{height:6px;background:#ffffff18;border-radius:20px;overflow:hidden;margin:0 0 17px}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--yellow));transition:width .3s}
+.feedback{background:#ffffff0b;border:1px solid #ffffff20;padding:12px;border-radius:13px;margin-top:12px;color:var(--mint);font-weight:750}
+.hidden{display:none!important}
+.letter{background:#fff4fb;color:#4a234c;border-radius:16px;padding:18px;margin:14px 0;transform:rotate(-1deg);box-shadow:0 8px 0 #10091b40}
+.letter p{color:#653f67}
+.money{border:1px dashed var(--yellow);border-radius:18px;padding:17px;text-align:center;background:#ffe58b0d;margin-top:15px}
+.money .emoji{font-size:38px}
+footer{text-align:center;color:#bba8d0;font-size:11px;padding:15px 8px}
+.sparkles{color:var(--yellow);letter-spacing:.4em;font-size:13px}
+@media(min-width:450px){.card{padding:28px}.hero{font-size:82px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span>✦ juego no oficial ✦</span><span class="pill">v. cumple atrasado</span></div>
+  <div class="progress" aria-label="Progreso del juego"><span id="bar"></span></div>
+  <main class="card" id="game" aria-live="polite">
+    <section id="screen-start">
+      <div class="kicker">Alerta nacional 🚨</div>
+      <div class="hero">🫨🎂</div>
+      <div class="stamp">EDICIÓN VALENCHINA</div>
+      <h1>VALENCHINA<br><span class="pink">SIMULATOR™</span></h1>
+      <p>Valenchina, tenemos un problema gravísimo: tu cumpleaños quedó pendiente de actualización y el sistema está actuando raro.</p>
+      <p class="sparkles">✦ ✧ ✦ ✧ ✦</p>
+      <button class="btn" onclick="startGame()">INICIAR EL DESASTRE ▶</button>
+      <div class="note">Advertencia: puede contener decisiones cuestionables y cariño genuino.</div>
+    </section>
+
+    <section id="screen-one" class="hidden">
+      <div class="kicker">Nivel 1 · emergencia</div><div class="hero">📢🦆</div>
+      <h2>Un pato te debe una explicación.</h2>
+      <p>Se aparece un pato con lentes y dice: “Amiga, llegué tarde porque estaba en una reunión”. ¿Qué haces?</p>
+      <div class="options">
+        <button class="option" onclick="answerOne(0)">🕶️ Le pido el acta de la reunión.</button>
+        <button class="option" onclick="answerOne(1)">🦆 Lo contrato como representante legal.</button>
+        <button class="option" onclick="answerOne(2)">💅 Le digo “ok, pero paga alquiler”.</button>
+      </div><div id="feedback-one" class="feedback hidden"></div>
+    </section>
+
+    <section id="screen-two" class="hidden">
+      <div class="kicker">Nivel 2 · prueba de reflejos</div><div class="hero">🧠⚡</div>
+      <h2>Elige el objeto más poderoso.</h2>
+      <p>El universo depende de tu respuesta. Piénsalo durante exactamente cero segundos.</p>
+      <div class="options">
+        <button class="option" onclick="answerTwo(0)">🥄 Una cuchara sospechosa</button>
+        <button class="option" onclick="answerTwo(1)">🩴 La chancla legendaria</button>
+        <button class="option" onclick="answerTwo(2)">📶 Wi-Fi con una rayita</button>
+      </div><div id="feedback-two" class="feedback hidden"></div>
+    </section>
+
+    <section id="screen-three" class="hidden">
+      <div class="kicker">Nivel 3 · decisión final</div><div class="hero">🎁👀</div>
+      <h2>Una caja misteriosa apareció.</h2>
+      <p>Hay tres botones. No sabemos qué hacen. La ciencia recomienda presionar uno de todos modos.</p>
+      <div class="options">
+        <button class="option" onclick="answerThree(0)">💥 EL BOTÓN ROJO</button>
+        <button class="option" onclick="answerThree(1)">✨ El botón sospechosamente brillante</button>
+        <button class="option" onclick="answerThree(2)">🐸 Preguntarle primero a una rana</button>
+      </div><div id="feedback-three" class="feedback hidden"></div>
+    </section>
+
+    <section id="screen-final" class="hidden">
+      <div class="kicker">Misión completada · rango: icónica</div>
+      <div class="hero">🏆💗🎉</div>
+      <h1>LO LOGRASTE,<br><span class="pink">VALENCHINA.</span></h1>
+      <p>Has sobrevivido a los retos más absurdos de internet. El comité de patos, ranas y cucharas te reconoce oficialmente.</p>
+      <div class="letter">
+        <div style="font-size:26px">💌</div>
+        <h2 style="color:#b83d86">Una cosita para ti</h2>
+        <p>Feliz cumpleaños atrasado, Valenchinaaa 🥹💗 Perdón por no haberte dado tu regalito en tu día. Quería hacerte algo aunque sea pequeñito, pero con mucho cariño. Espero que hayas pasado bonito y que este nuevo año te traiga cosas lindas, risas y cero patos irresponsables.</p>
+        <p><strong>Con cariño, tu amiga 💗</strong></p>
+      </div>
+      <div class="money">
+        <div class="emoji">💸🎀</div>
+        <h2 style="color:var(--yellow);margin-bottom:7px">¡DESBLOQUEASTE TU REGALITO!</h2>
+        <p style="margin-bottom:8px">Sí, hay dinerito para ti 🥹. Te lo voy a enviar por privado para que llegue directo a tus manos.</p>
+        <div style="font-size:12px;color:#ffe7a8">Tu recompensa: cariño + presupuesto secreto ✨</div>
+      </div>
+      <button class="btn yellow" onclick="celebrate()">PRESIONA PARA CELEBRAR 🎉</button>
+      <div id="celebrate-msg" class="feedback hidden">🎉 CONFETI IMAGINARIO ACTIVADO. VALENCHINA ES LEYENDA. 🎉</div>
+      <button class="btn secondary" onclick="restart()">Volver a jugar ↻</button>
+      <div class="note">Hecho especialmente para ti, Valenchina. No se aceptan devoluciones de cariño.</div>
+    </section>
+  </main>
+  <footer>Hecho con cariño y una cantidad poco saludable de caos. ✦</footer>
+</div>
+<script>
+const screens=['start','one','two','three','final'];
+let current=0;
+function show(name){screens.forEach(s=>document.getElementById('screen-'+s).classList.toggle('hidden',s!==name));current=screens.indexOf(name);document.getElementById('bar').style.width=([0,25,50,75,100][current])+'%';window.scrollTo({top:0,behavior:'smooth'});}
+function startGame(){show('one')}
+function revealFeedback(id,msg,next){const el=document.getElementById(id);el.textContent=msg;el.classList.remove('hidden');const old=document.getElementById('continue-'+id);if(old)old.remove();const b=document.createElement('button');b.className='btn';b.id='continue-'+id;b.textContent=next==='final'?'DESBLOQUEAR EL REGALO 🎁':'CONTINUAR →';b.onclick=()=>show(next);el.after(b)}
+function answerOne(n){const msgs=['Correcto. El pato queda bajo investigación. 🕵️','Contratación aprobada. Su sueldo será tres migajas.','Respuesta profesional. Recursos humanos está llorando.'];revealFeedback('feedback-one',msgs[n],'two')}
+function answerTwo(n){const msgs=['Poderosa, pero no lo suficiente.','¡RESPUESTA CANÓNICA! La chancla nunca falla. 🩴','El Wi-Fi es poderoso, pero hoy no es el elegido.'];revealFeedback('feedback-two',msgs[n],'three')}
+function answerThree(n){const msgs=['¡BOOM! Era una máquina de hacer sonidos de pato. 🦆','La caja te ha elegido. Muy cinematográfico. ✨','La rana dice que el verdadero regalo eran las amigas que hicimos por el camino. 🐸'];revealFeedback('feedback-three',msgs[n],'final')}
+function celebrate(){const e=document.getElementById('celebrate-msg');e.classList.remove('hidden');for(let i=0;i<14;i++){const s=document.createElement('span');s.textContent=['✨','💗','🎉','⭐'][i%4];s.style.position='fixed';s.style.left=(Math.random()*90+5)+'vw';s.style.top=(Math.random()*75+10)+'vh';s.style.fontSize=(20+Math.random()*22)+'px';s.style.pointerEvents='none';s.style.zIndex=10;document.body.appendChild(s);setTimeout(()=>s.remove(),1600)}}
+function restart(){['feedback-one','feedback-two','feedback-three','continue-feedback-one','continue-feedback-two','continue-feedback-three','celebrate-msg'].forEach(id=>{const e=document.getElementById(id);if(e)e.classList.add('hidden')});document.querySelectorAll('[id^="continue-"]').forEach(e=>e.remove());show('start')}
+</script>
+</body>
+</html>
